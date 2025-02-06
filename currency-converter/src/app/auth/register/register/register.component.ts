@@ -14,7 +14,6 @@ export class RegisterComponent {
   constructor(private navCtrl: NavController) {}
 
   public register(): void {
-    // Simulate registration logic
     this.navCtrl.navigateBack('/login');
   }
 
