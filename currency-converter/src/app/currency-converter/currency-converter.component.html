@@ -1,38 +1,80 @@
+<div class="container">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Amount</mat-label>
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="amount"
+      (ngModelChange)="onCurrencyChange()"
+      placeholder="Enter amount"
+    />
+  </mat-form-field>
 
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>From Currency</mat-label>
+    <mat-select [(ngModel)]="fromCurrency" (selectionChange)="onCurrencyChange()">
+      <mat-option value="USD">USD</mat-option>
+      <mat-option value="EUR">EUR</mat-option>
+      <mat-option value="GBP">GBP</mat-option>
+      <mat-option value="JPY">JPY</mat-option>
+    </mat-select>
+  </mat-form-field>
 
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>To Currency</mat-label>
+    <mat-select [(ngModel)]="toCurrency" (selectionChange)="onCurrencyChange()">
+      <mat-option value="USD">USD</mat-option>
+      <mat-option value="EUR">EUR</mat-option>
+      <mat-option value="GBP">GBP</mat-option>
+      <mat-option value="JPY">JPY</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  Amount <input [(ngModel)]="amount">
-  From <input [(ngModel)]="fromCurrency">
-  To <input [(ngModel)]="toCurrency">
-  <button (click)="convert()">Convert</button>
-  <button (click)="logout()">Logout</button>
-<!--<ion-content>-->
-<!--  <ion-item>-->
-<!--    <ion-label position="floating"></ion-label>-->
-<!--    <ion-input type="number" ></ion-input>-->
-<!--  </ion-item>-->
+  <button
+    mat-raised-button
+    color="primary"
+    class="full-width"
+    (click)="convert()"
+  >
+    Convert
+  </button>
 
-<!--  <ion-item>-->
-<!--    <ion-label></ion-label>-->
-<!--    <ion-select >-->
-<!--      <ion-select-option value="USD">USD</ion-select-option>-->
-<!--      <ion-select-option value="EUR">EUR</ion-select-option>-->
-<!--    </ion-select>-->
-<!--  </ion-item>-->
+  <div *ngIf="showResult && result !== null" class="result">
+    <h2>Converted Amount:</h2>
+    <p>{{ amount }} {{ fromCurrency }} = {{ result | number: '1.2-2' }} {{ toCurrency }}</p>
+  </div>
 
-<!--  <ion-item>-->
-<!--    <ion-label></ion-label>-->
-<!--    <ion-select >-->
-<!--      <ion-select-option value="EUR">EUR</ion-select-option>-->
-<!--      <ion-select-option value="USD">USD</ion-select-option>-->
-<!--    </ion-select>-->
-<!--  </ion-item>-->
+  <div class="conversion-history">
+    <h2>Conversion History</h2>
+    <table *ngIf="conversions.length > 0">
+      <thead>
+      <tr>
+        <th>Amount</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Result</th>
+        <th>Timestamp</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let conversion of conversions">
+        <td>{{ conversion.amount }}</td>
+        <td>{{ conversion.fromCurrency }}</td>
+        <td>{{ conversion.toCurrency }}</td>
+        <td>{{ conversion.result | number: '1.2-2' }}</td>
+        <td>{{ conversion.timestamp | date: 'short' }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <p *ngIf="conversions.length === 0">No conversions yet.</p>
+  </div>
 
-<!--  <ion-button expand="full" "></ion-button>-->
-
-<!--  <ion-item *ngIf="result !== null">-->
-<!--    <ion-label>Result: {{ result | currency:toCurrency }}</ion-label>-->
-<!--  </ion-item>-->
-
-<!--  <ion-button expand="full" color="danger" >Logout</ion-button>-->
-<!--</ion-content>-->
+  <button
+    mat-raised-button
+    color="warn"
+    class="logout-button"
+    (click)="logout()"
+  >
+    Logout
+  </button>
+</div>

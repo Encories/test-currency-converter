@@ -1,37 +1,35 @@
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, setValue, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Login, Logout } from './auth.actions';
 
 export interface AuthStateModel {
-  token: string | null;
-  username: string | null;
+  apiKey: string | null;
 }
 
 @State<AuthStateModel>({
   name: 'auth',
   defaults: {
-    token: null,
-    username: null
-  }
+    apiKey: null,
+  },
 })
 @Injectable()
 export class AuthState {
-  constructor(private storage: Storage) {}
+  constructor(private storage: Storage) {
+  }
+
+  @Selector()
+  static getValue(state: AuthStateModel) {
+    return state.apiKey;
+  }
 
   @Action(Login)
-  async login(ctx: StateContext<AuthStateModel>, action: Login) {
-    const { username, password } = action.payload;
-
-    const token = 'fake-jwt-token';
-
-    ctx.patchState({ token, username });
-    await this.storage.set('auth', { token, username });
+  login(ctx: StateContext<AuthStateModel>, action: Login) {
+    ctx.setState(action.payload);
   }
 
   @Action(Logout)
-  async logout(ctx: StateContext<AuthStateModel>) {
-    ctx.patchState({ token: null, username: null });
-    await this.storage.remove('auth');
+  logout(ctx: StateContext<AuthStateModel>, action: Logout) {
+    ctx.setState({apiKey: null});
   }
 }

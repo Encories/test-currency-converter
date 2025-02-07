@@ -1,0 +1,24 @@
+.error {
+  color: red;
+}
+
+mat-card {
+  margin: 20px;
+}
+
+mat-spinner {
+  margin: 10px auto;
+  display: block;
+}
+
+.key-button {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}

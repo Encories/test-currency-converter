@@ -1,5 +1,52 @@
-<h2>Login</h2>
-Username <input [(ngModel)]="username">
-Password <input [(ngModel)]="password">
-<button (click)="login()">Login</button>
-<button (click)="goToRegister()">Register</button>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <div class="header">
+      <span>Login</span>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="goToRegister()"
+      >Register
+      </button>
+    </div>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-content>
+    <p>FreeCurrencyAPI doesn’t provide a direct OAuth/login API for end-users. API keys for services of FreeCurrencyAPI
+      are obtained manually by developers (not end-users). You can register or login in FreeCurrencyAPI by yourself and
+      enter your API key here:</p>
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="key-button">
+        <mat-form-field appearance="fill">
+          <mat-label>API KEY</mat-label>
+          <input
+            matInput
+            formControlName="apiKey"
+          >
+        </mat-form-field>
+        <mat-spinner
+          *ngIf="loading"
+          [diameter]="30"
+        ></mat-spinner>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loading || loginForm.invalid"
+        >Enter API key
+        </button>
+      </div>
+      <div
+        *ngIf="errorMessage"
+        class="error"
+      >{{ errorMessage }}
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

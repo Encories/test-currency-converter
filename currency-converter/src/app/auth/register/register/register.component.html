@@ -1,5 +1,28 @@
-<h2>Register</h2>
-Username <input [(ngModel)]="username">
-Password <input [(ngModel)]="password">
-<button (click)="register()">Register</button>
+<!--<h2>Register</h2>-->
+<!--Username <input [(ngModel)]="username">-->
+<!--Password <input [(ngModel)]="password">-->
+<!--<button (click)="register()">Register</button>-->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Username</ion-label>
+      <ion-input formControlName="username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <ion-button expand="full" type="submit" [disabled]="loading">Register</ion-button>
+    <ion-spinner *ngIf="loading"></ion-spinner>
+  </form>
+  <ion-button expand="full" type="submit" (click)="goToLogin()">Back to Login</ion-button>
+</ion-content>
 

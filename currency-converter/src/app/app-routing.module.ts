@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
-import { IonicStorageModule } from '@ionic/storage-angular';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,6 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'currency-converter',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./currency-converter/currency-converter.module').then(m => m.CurrencyConverterModule)
   },
   {
